@@ -1,7 +1,8 @@
 package io.github.tonyzzx.gspan.model;
 
 public class PDFS {
-	public int id = 0; // ID of the original input graph
-	public Edge edge = null;
-	public PDFS prev = null;
+    // ID of the original input graph
+    public int id = 0;
+    Edge edge = null;
+    PDFS prev = null;
 }
