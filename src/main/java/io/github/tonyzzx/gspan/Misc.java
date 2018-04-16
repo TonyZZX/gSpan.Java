@@ -7,8 +7,8 @@ import io.github.tonyzzx.gspan.model.Graph;
 import io.github.tonyzzx.gspan.model.History;
 import io.github.tonyzzx.gspan.model.Vertex;
 
-class Misc {
-    static boolean getForwardRoot(Graph g, Vertex v, ArrayList<Edge> result) {
+public class Misc {
+    public static boolean getForwardRoot(Graph g, Vertex v, ArrayList<Edge> result) {
         result.clear();
         for (Edge it : v.edge) {
             assert (it.to >= 0 && it.to < g.size());
@@ -19,7 +19,7 @@ class Misc {
         return !result.isEmpty();
     }
 
-    static Edge getBackward(Graph graph, Edge e1, Edge e2, History history) {
+    public static Edge getBackward(Graph graph, Edge e1, Edge e2, History history) {
         if (e1 == e2)
             return null;
 
@@ -40,7 +40,7 @@ class Misc {
         return null;
     }
 
-    static boolean getForwardPure(Graph graph, Edge e, int minLabel, History history, ArrayList<Edge> result) {
+    public static boolean getForwardPure(Graph graph, Edge e, int minLabel, History history, ArrayList<Edge> result) {
         result.clear();
 
         assert (e.to >= 0 && e.to < graph.size());
@@ -58,7 +58,7 @@ class Misc {
         return !result.isEmpty();
     }
 
-    static boolean getForwardRmPath(Graph graph, Edge e, int minLabel, History history, ArrayList<Edge> result) {
+    public static boolean getForwardRmPath(Graph graph, Edge e, int minLabel, History history, ArrayList<Edge> result) {
         result.clear();
         assert (e.to >= 0 && e.to < graph.size());
         assert (e.from >= 0 && e.from < graph.size());

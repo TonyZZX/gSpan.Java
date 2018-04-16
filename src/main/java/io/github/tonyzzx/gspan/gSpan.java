@@ -77,6 +77,7 @@ public class gSpan {
                 break;
             TRANS.add(g);
         }
+        read.close();
     }
 
     private void runIntern() throws IOException {
