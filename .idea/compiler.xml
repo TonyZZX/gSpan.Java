@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="gSpan.Java" target="1.5" />
+      <module name="gSpan.Java" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
