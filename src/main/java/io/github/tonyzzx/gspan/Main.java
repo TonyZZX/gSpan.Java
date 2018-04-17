@@ -89,7 +89,7 @@ public class Main {
             try (Scanner sc = new Scanner(System.in)) {
                 inFilePath = sc.nextLine();
                 System.out.println("Please set the minimum support: ");
-                minSup = sc.nextInt();
+                minSup = sc.nextLong();
                 outFilePath = inFilePath + "_result";
             }
         }
