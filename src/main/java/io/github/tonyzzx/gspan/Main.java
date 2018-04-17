@@ -2,7 +2,10 @@ package io.github.tonyzzx.gspan;
 
 import org.apache.commons.cli.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -38,9 +41,9 @@ public class Main {
         static Arguments Instance(String[] args) {
             arguments = new Arguments(args);
             if (args.length > 0) {
-                arguments.InitFromCmd();
+                arguments.initFromCmd();
             } else {
-                arguments.InitFromRun();
+                arguments.initFromRun();
             }
             return arguments;
         }
@@ -48,7 +51,7 @@ public class Main {
         /***
          * User inputs args.
          */
-        private void InitFromCmd() {
+        private void initFromCmd() {
             Options options = new Options();
             options.addRequiredOption("d", "data", true, "(Required) File path of data set");
             options.addRequiredOption("s", "sup", true, "(Required) Minimum support");
@@ -81,7 +84,7 @@ public class Main {
         /***
          * User runs it directly.
          */
-        private void InitFromRun() {
+        private void initFromRun() {
             System.out.println("Please input the file path of data set: ");
             try (Scanner sc = new Scanner(System.in)) {
                 inFilePath = sc.nextLine();
