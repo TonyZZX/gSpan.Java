@@ -55,8 +55,8 @@ public class Main {
             Options options = new Options();
             options.addRequiredOption("d", "data", true, "(Required) File path of data set");
             options.addRequiredOption("s", "sup", true, "(Required) Minimum support");
-            options.addOption("i", "min-node", true, "Minimum number of nodes");
-            options.addOption("a", "max-node", true, "Maximum number of nodes");
+            options.addOption("i", "min-node", true, "Minimum number of nodes for each sub-graph");
+            options.addOption("a", "max-node", true, "Maximum number of nodes for each sub-graph");
             options.addOption("r", "result", true, "File path of result");
             options.addOption("h", "help", false, "Help");
 

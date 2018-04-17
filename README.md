@@ -37,10 +37,10 @@ This program supports 2 ways to run.
 
 ```
 usage: gSpan
- -a,--max-node <arg>   Maximum number of nodes
+ -a,--max-node <arg>   Maximum number of nodes for each sub-graph
  -d,--data <arg>       (Required) File path of data set
  -h,--help             Help
- -i,--min-node <arg>   Minimum number of nodes
+ -i,--min-node <arg>   Minimum number of nodes for each sub-graph
  -r,--result <arg>     File path of result
  -s,--sup <arg>        (Required) Minimum support
  ```
