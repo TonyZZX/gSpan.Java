@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Arguments arguments = Arguments.Instance(args);
+        Arguments arguments = Arguments.getInstance(args);
 
         File inFile = new File(arguments.inFilePath);
         File outFile = new File(arguments.outFilePath);
@@ -38,7 +38,7 @@ public class Main {
             this.args = args;
         }
 
-        static Arguments Instance(String[] args) {
+        static Arguments getInstance(String[] args) {
             arguments = new Arguments(args);
             if (args.length > 0) {
                 arguments.initFromCmd();
