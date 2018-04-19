@@ -53,15 +53,15 @@ In this mode, you can only specify the file path of input data set and the minim
 
 ## Reference
 
-- [gSpan](https://www.cs.ucsb.edu/~xyan/software/gSpan.htm)
+- [gSpan][gSpan]
 
 gSpan: Graph-Based Substructure Pattern Mining, by X. Yan and J. Han.
 
-- [gboost](http://www.nowozin.net/sebastian/gboost/)
+- [gboost][gboost]
 
 Matlab / C++ implementation of gSpan.
 
-- [gSpan.Python](https://github.com/betterenvi/gSpan)
+- [gSpan.Python][gSpan.Python]
 
 Python implementation of gSpan.
 
