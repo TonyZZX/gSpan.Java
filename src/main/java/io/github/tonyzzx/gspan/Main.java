@@ -19,6 +19,7 @@ public class Main {
                 gSpan gSpan = new gSpan();
                 System.out.println("gSpan is mining...");
                 gSpan.run(reader, writer, arguments.minSup, arguments.maxNodeNum, arguments.minNodeNum);
+                System.out.println("It's done! The result is in the " + arguments.outFilePath + ".");
             }
         }
     }
@@ -85,8 +86,8 @@ public class Main {
          * User runs it directly.
          */
         private void initFromRun() {
-            System.out.println("Please input the file path of data set: ");
             try (Scanner sc = new Scanner(System.in)) {
+                System.out.println("Please input the file path of data set: ");
                 inFilePath = sc.nextLine();
                 System.out.println("Please set the minimum support: ");
                 minSup = sc.nextLong();
