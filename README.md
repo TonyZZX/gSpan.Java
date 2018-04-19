@@ -4,7 +4,7 @@ gSpan is a software package of mining frequent graphs in a graph database.  Give
 
 This is a Java implementation of frequent sub-graph mining algorithm gSpan. Most of the codes were ported from [gboost][gboost], which is a Matlab / C++ implementation of gSpan. The correctness of result is not guaranteed by the official. However, after countless testing by the author, the results are the same as [gboost][gboost] and [gSpan.Python][gSpan.Python]. What's more, the time of mining is much shorter than the above two implementations.
 
-You may download the lastest `.jar` file from [here](/releases).
+You may download the lastest `.jar` file from [here](../../releases).
 
 ## Documentation
 
