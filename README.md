@@ -1,4 +1,4 @@
-# gSpan.Java
+# gSpan in Java
 
 gSpan is a software package of mining frequent graphs in a graph database.  Given a collection of graphs and a minimum support threshold, gSpan is able to find all of the subgraphs whose frequency is above the threshold.<sup>[1][gSpan]</sup>
 
