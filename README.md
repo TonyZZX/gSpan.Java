@@ -44,6 +44,7 @@ usage: gSpan
  -h,--help             Help
  -i,--min-node <arg>   Minimum number of nodes for each sub-graph
  -r,--result <arg>     File path of result
+ -t,--graph-type <arg> Type of graph: directed / undirected (default: undirected)
  -s,--sup <arg>        (Required) Minimum support
  ```
 

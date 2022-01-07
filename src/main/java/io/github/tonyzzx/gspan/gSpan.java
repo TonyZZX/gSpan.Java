@@ -56,13 +56,13 @@ public class gSpan {
      * @param minNodeNum Minimum number of nodes
      * @throws IOException
      */
-    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum) throws IOException {
+    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum, boolean directed) throws IOException {
         os = writers;
         ID = 0;
         this.minSup = minSup;
         maxPat_min = minNodeNum;
         maxPat_max = maxNodeNum;
-        directed = false;
+        this.directed = directed;
 
         read(reader);
         runIntern();

@@ -18,13 +18,16 @@ public class Main {
             try (FileWriter writer = new FileWriter(outFile)) {
                 gSpan gSpan = new gSpan();
                 System.out.println("gSpan is mining...");
-                gSpan.run(reader, writer, arguments.minSup, arguments.maxNodeNum, arguments.minNodeNum);
+                gSpan.run(reader, writer, arguments.minSup, arguments.maxNodeNum, arguments.minNodeNum, arguments.directed);
                 System.out.println("It's done! The result is in the " + arguments.outFilePath + ".");
             }
         }
     }
 
     private static class Arguments {
+        public static final String GRAPH_TYPE_UNDIRECTED = "undirected";
+        public static final String GRAPH_TYPE_DIRECTED = "directed";
+        public static final String GRAPH_TYPE_DEFAULT = GRAPH_TYPE_UNDIRECTED;
         private static Arguments arguments;
 
         private String[] args;
@@ -34,6 +37,7 @@ public class Main {
         long minNodeNum = 0;
         long maxNodeNum = Long.MAX_VALUE;
         String outFilePath;
+        boolean directed = false;
 
         private Arguments(String[] args) {
             this.args = args;
@@ -59,6 +63,7 @@ public class Main {
             options.addOption("i", "min-node", true, "Minimum number of nodes for each sub-graph");
             options.addOption("a", "max-node", true, "Maximum number of nodes for each sub-graph");
             options.addOption("r", "result", true, "File path of result");
+            options.addOption("t", "graph-type", true, "Type of graph: " + GRAPH_TYPE_DIRECTED + " / " + GRAPH_TYPE_UNDIRECTED + " (default: " + GRAPH_TYPE_DEFAULT + ")");
             options.addOption("h", "help", false, "Help");
 
             CommandLineParser parser = new DefaultParser();
@@ -80,6 +85,12 @@ public class Main {
             minNodeNum = Long.parseLong(cmd.getOptionValue("i", "0"));
             maxNodeNum = Long.parseLong(cmd.getOptionValue("a", String.valueOf(Long.MAX_VALUE)));
             outFilePath = cmd.getOptionValue("r", inFilePath + "_result");
+            String graphType = cmd.getOptionValue("t", GRAPH_TYPE_DEFAULT);
+            if (!(GRAPH_TYPE_DIRECTED.equals(graphType) || GRAPH_TYPE_UNDIRECTED.equals(graphType))) {
+                System.out.println("Graph type not valid, was: " + graphType + ", valid: " + GRAPH_TYPE_DIRECTED + " / " + GRAPH_TYPE_UNDIRECTED);
+                System.exit(1);
+            }
+            directed = GRAPH_TYPE_DIRECTED.equals(graphType);
         }
 
         /***
