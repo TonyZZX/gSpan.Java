@@ -180,7 +180,7 @@ public class gSpan {
             sup += Common.getValue(it.getValue());
         }
 
-        if (maxPat_max > maxPat_min && g.size() > maxPat_max)
+        if (maxPat_max >= maxPat_min && g.size() > maxPat_max)
             return;
         if (maxPat_min > 0 && g.size() < maxPat_min)
             return;
@@ -192,7 +192,7 @@ public class gSpan {
 
     private void report(int sup) throws IOException {
         // Filter to small/too large graphs.
-        if (maxPat_max > maxPat_min && DFS_CODE.countNode() > maxPat_max)
+        if (maxPat_max >= maxPat_min && DFS_CODE.countNode() > maxPat_max)
             return;
         if (maxPat_min > 0 && DFS_CODE.countNode() < maxPat_min)
             return;
@@ -233,7 +233,7 @@ public class gSpan {
          * still add edges within an existing sub-graph, without increasing the
          * number of nodes.
          */
-        if (maxPat_max > maxPat_min && DFS_CODE.countNode() > maxPat_max)
+        if (maxPat_max >= maxPat_min && DFS_CODE.countNode() > maxPat_max)
             return;
 
         /*
