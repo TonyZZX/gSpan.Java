@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map.Entry;
 
 import io.github.tonyzzx.gspan.model.DFSCode;
@@ -14,10 +14,6 @@ import io.github.tonyzzx.gspan.model.History;
 import io.github.tonyzzx.gspan.model.PDFS;
 import io.github.tonyzzx.gspan.model.Projected;
 import io.github.tonyzzx.gspan.model.Vertex;
-
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.Vector;
 
 public class gSpan {
     private ArrayList<Graph> TRANS;
@@ -70,11 +66,45 @@ public class gSpan {
 
     private void read(FileReader is) throws IOException {
         BufferedReader read = new BufferedReader(is);
-        while (true) {
-            Graph g = new Graph(directed);
-            read = g.read(read);
-            if (g.isEmpty())
-                break;
+        List<String> result = new ArrayList<>();
+        String line;
+        Graph g = new Graph(directed);
+        while ((line = read.readLine()) != null) {
+            result.clear();
+            String[] splitRead = line.split(" ");
+            Collections.addAll(result, splitRead);
+
+            if (!result.isEmpty()) {
+                if (result.get(0).equals("t")) {
+                    if (!g.isEmpty()) {
+                        g.buildEdge();
+                        TRANS.add(g);
+                    }
+                    g = new Graph(directed);
+                } else if (result.get(0).equals("v") && result.size() >= 3) {
+                    // int id = Integer.parseInt(result.get(1));
+                    Vertex vex = new Vertex();
+                    vex.label = Integer.parseInt(result.get(2));
+                    g.add(vex);
+                } else if (result.get(0).equals("e") && result.size() >= 4) {
+                    int from = Integer.parseInt(result.get(1));
+                    int to = Integer.parseInt(result.get(2));
+                    int eLabel = Integer.parseInt(result.get(3));
+
+                    if (g.size() <= from || g.size() <= to) {
+                        throw new IllegalStateException("Format Error:  define vertex lists before edges!");
+                    }
+
+                    g.get(from).push(from, to, eLabel);
+
+                    if (!directed) {
+                        g.get(to).push(to, from, eLabel);
+                    }
+                }
+            }
+        }
+        if (!g.isEmpty()) {
+            g.buildEdge();
             TRANS.add(g);
         }
         read.close();
