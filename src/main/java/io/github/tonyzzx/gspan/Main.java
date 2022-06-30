@@ -18,7 +18,7 @@ public class Main {
             try (FileWriter writer = new FileWriter(outFile)) {
                 gSpan gSpan = new gSpan();
                 System.out.println("gSpan is mining...");
-                gSpan.run(reader, writer, arguments.minSup, arguments.maxNodeNum, arguments.minNodeNum, arguments.directed);
+                gSpan.run(reader, writer, arguments.minSup, arguments.maxNodeNum, arguments.minNodeNum, arguments.directed, arguments.singleNodes);
                 System.out.println("It's done! The result is in the " + arguments.outFilePath + ".");
             }
         }
@@ -38,6 +38,7 @@ public class Main {
         long maxNodeNum = Long.MAX_VALUE;
         String outFilePath;
         boolean directed = false;
+        boolean singleNodes = false;
 
         private Arguments(String[] args) {
             this.args = args;
@@ -64,6 +65,7 @@ public class Main {
             options.addOption("a", "max-node", true, "Maximum number of nodes for each sub-graph");
             options.addOption("r", "result", true, "File path of result");
             options.addOption("t", "graph-type", true, "Type of graph: " + GRAPH_TYPE_DIRECTED + " / " + GRAPH_TYPE_UNDIRECTED + " (default: " + GRAPH_TYPE_DEFAULT + ")");
+            options.addOption("s", "single-nodes", false, "Single nodes (nodes with same label are merged)");
             options.addOption("h", "help", false, "Help");
 
             CommandLineParser parser = new DefaultParser();
@@ -91,6 +93,7 @@ public class Main {
                 System.exit(1);
             }
             directed = GRAPH_TYPE_DIRECTED.equals(graphType);
+            singleNodes = cmd.hasOption("s");
         }
 
         /***

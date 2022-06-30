@@ -26,6 +26,7 @@ public class gSpan {
     private long maxPat_min;
     private long maxPat_max;
     private boolean directed;
+    private boolean singleNodes;
     private FileWriter os;
 
     // Singular vertex handling stuff [graph][vertexLabel] = count.
@@ -52,13 +53,14 @@ public class gSpan {
      * @param minNodeNum Minimum number of nodes
      * @throws IOException
      */
-    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum, boolean directed) throws IOException {
+    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum, boolean directed, boolean singleNodes) throws IOException {
         os = writers;
         ID = 0;
         this.minSup = minSup;
         maxPat_min = minNodeNum;
         maxPat_max = maxNodeNum;
         this.directed = directed;
+        this.singleNodes = singleNodes;
 
         read(reader);
         runIntern();
@@ -228,7 +230,7 @@ public class gSpan {
             return;
 
         Graph g = new Graph(directed);
-        DFS_CODE.toGraph(g);
+        DFS_CODE.toGraph(g, singleNodes);
         os.write("t # " + ID + " * " + sup + System.getProperty("line.separator"));
         g.write(os);
         ++ID;
@@ -381,7 +383,7 @@ public class gSpan {
         if (DFS_CODE.size() == 1)
             return (true);
 
-        DFS_CODE.toGraph(GRAPH_IS_MIN);
+        DFS_CODE.toGraph(GRAPH_IS_MIN, singleNodes);
         DFS_CODE_IS_MIN.clear();
 
         NavigableMap<Integer, NavigableMap<Integer, NavigableMap<Integer, Projected>>> root = new TreeMap<>();
