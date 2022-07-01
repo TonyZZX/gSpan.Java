@@ -17,7 +17,7 @@ public class Graph extends ArrayList<Vertex> {
         this.directed = directed;
     }
 
-    void buildEdge() {
+    public void buildEdge() {
         String buf;
         NavigableMap<String, Integer> tmp = new TreeMap<>();
 
@@ -41,51 +41,6 @@ public class Graph extends ArrayList<Vertex> {
         }
 
         edge_size = id;
-    }
-
-    public BufferedReader read(BufferedReader is) throws IOException {
-        ArrayList<String> result = new ArrayList<>();
-        String line;
-
-        clear();
-
-        while ((line = is.readLine()) != null) {
-            result.clear();
-            String[] splitRead = line.split(" ");
-            Collections.addAll(result, splitRead);
-
-            if (!result.isEmpty()) {
-                if (result.get(0).equals("t")) {
-                    if (!this.isEmpty()) { // use as delimiter
-                        break;
-                    }
-                } else if (result.get(0).equals("v") && result.size() >= 3) {
-                    // int id = Integer.parseInt(result.get(1));
-                    Vertex vex = new Vertex();
-                    vex.label = Integer.parseInt(result.get(2));
-                    this.add(vex);
-                } else if (result.get(0).equals("e") && result.size() >= 4) {
-                    int from = Integer.parseInt(result.get(1));
-                    int to = Integer.parseInt(result.get(2));
-                    int eLabel = Integer.parseInt(result.get(3));
-
-                    if (this.size() <= from || this.size() <= to) {
-                        System.out.println("Format Error:  define vertex lists before edges");
-                        return null;
-                    }
-
-                    this.get(from).push(from, to, eLabel);
-
-                    if (!directed) {
-                        this.get(to).push(to, from, eLabel);
-                    }
-                }
-            }
-        }
-
-        buildEdge();
-
-        return is;
     }
 
     public void write(FileWriter os) throws IOException {

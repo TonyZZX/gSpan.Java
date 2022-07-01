@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map.Entry;
 
 import io.github.tonyzzx.gspan.model.DFSCode;
@@ -14,10 +14,6 @@ import io.github.tonyzzx.gspan.model.History;
 import io.github.tonyzzx.gspan.model.PDFS;
 import io.github.tonyzzx.gspan.model.Projected;
 import io.github.tonyzzx.gspan.model.Vertex;
-
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.Vector;
 
 public class gSpan {
     private ArrayList<Graph> TRANS;
@@ -30,6 +26,7 @@ public class gSpan {
     private long maxPat_min;
     private long maxPat_max;
     private boolean directed;
+    private boolean singleNodes;
     private FileWriter os;
 
     // Singular vertex handling stuff [graph][vertexLabel] = count.
@@ -56,13 +53,14 @@ public class gSpan {
      * @param minNodeNum Minimum number of nodes
      * @throws IOException
      */
-    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum) throws IOException {
+    void run(FileReader reader, FileWriter writers, long minSup, long maxNodeNum, long minNodeNum, boolean directed, boolean singleNodes) throws IOException {
         os = writers;
         ID = 0;
         this.minSup = minSup;
         maxPat_min = minNodeNum;
         maxPat_max = maxNodeNum;
-        directed = false;
+        this.directed = directed;
+        this.singleNodes = singleNodes;
 
         read(reader);
         runIntern();
@@ -70,11 +68,45 @@ public class gSpan {
 
     private void read(FileReader is) throws IOException {
         BufferedReader read = new BufferedReader(is);
-        while (true) {
-            Graph g = new Graph(directed);
-            read = g.read(read);
-            if (g.isEmpty())
-                break;
+        List<String> result = new ArrayList<>();
+        String line;
+        Graph g = new Graph(directed);
+        while ((line = read.readLine()) != null) {
+            result.clear();
+            String[] splitRead = line.split(" ");
+            Collections.addAll(result, splitRead);
+
+            if (!result.isEmpty()) {
+                if (result.get(0).equals("t")) {
+                    if (!g.isEmpty()) {
+                        g.buildEdge();
+                        TRANS.add(g);
+                    }
+                    g = new Graph(directed);
+                } else if (result.get(0).equals("v") && result.size() >= 3) {
+                    // int id = Integer.parseInt(result.get(1));
+                    Vertex vex = new Vertex();
+                    vex.label = Integer.parseInt(result.get(2));
+                    g.add(vex);
+                } else if (result.get(0).equals("e") && result.size() >= 4) {
+                    int from = Integer.parseInt(result.get(1));
+                    int to = Integer.parseInt(result.get(2));
+                    int eLabel = Integer.parseInt(result.get(3));
+
+                    if (g.size() <= from || g.size() <= to) {
+                        throw new IllegalStateException("Format Error:  define vertex lists before edges!");
+                    }
+
+                    g.get(from).push(from, to, eLabel);
+
+                    if (!directed) {
+                        g.get(to).push(to, from, eLabel);
+                    }
+                }
+            }
+        }
+        if (!g.isEmpty()) {
+            g.buildEdge();
             TRANS.add(g);
         }
         read.close();
@@ -180,7 +212,7 @@ public class gSpan {
             sup += Common.getValue(it.getValue());
         }
 
-        if (maxPat_max > maxPat_min && g.size() > maxPat_max)
+        if (maxPat_max >= maxPat_min && g.size() > maxPat_max)
             return;
         if (maxPat_min > 0 && g.size() < maxPat_min)
             return;
@@ -192,13 +224,13 @@ public class gSpan {
 
     private void report(int sup) throws IOException {
         // Filter to small/too large graphs.
-        if (maxPat_max > maxPat_min && DFS_CODE.countNode() > maxPat_max)
+        if (maxPat_max >= maxPat_min && DFS_CODE.countNode() > maxPat_max)
             return;
         if (maxPat_min > 0 && DFS_CODE.countNode() < maxPat_min)
             return;
 
         Graph g = new Graph(directed);
-        DFS_CODE.toGraph(g);
+        DFS_CODE.toGraph(g, singleNodes);
         os.write("t # " + ID + " * " + sup + System.getProperty("line.separator"));
         g.write(os);
         ++ID;
@@ -233,7 +265,7 @@ public class gSpan {
          * still add edges within an existing sub-graph, without increasing the
          * number of nodes.
          */
-        if (maxPat_max > maxPat_min && DFS_CODE.countNode() > maxPat_max)
+        if (maxPat_max >= maxPat_min && DFS_CODE.countNode() > maxPat_max)
             return;
 
         /*
@@ -351,7 +383,7 @@ public class gSpan {
         if (DFS_CODE.size() == 1)
             return (true);
 
-        DFS_CODE.toGraph(GRAPH_IS_MIN);
+        DFS_CODE.toGraph(GRAPH_IS_MIN, singleNodes);
         DFS_CODE_IS_MIN.clear();
 
         NavigableMap<Integer, NavigableMap<Integer, NavigableMap<Integer, Projected>>> root = new TreeMap<>();

@@ -10,7 +10,7 @@ public class Vertex {
         edge = new ArrayList<>();
     }
 
-    void push(int from, int to, int eLabel) {
+    public void push(int from, int to, int eLabel) {
         Edge e = new Edge();
         e.from = from;
         e.to = to;
