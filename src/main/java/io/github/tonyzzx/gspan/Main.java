@@ -65,7 +65,7 @@ public class Main {
             options.addOption("a", "max-node", true, "Maximum number of nodes for each sub-graph");
             options.addOption("r", "result", true, "File path of result");
             options.addOption("t", "graph-type", true, "Type of graph: " + GRAPH_TYPE_DIRECTED + " / " + GRAPH_TYPE_UNDIRECTED + " (default: " + GRAPH_TYPE_DEFAULT + ")");
-            options.addOption("s", "single-nodes", false, "Single nodes (nodes with same label are merged)");
+            options.addOption("n", "single-nodes", false, "Single nodes (nodes with same label are merged)");
             options.addOption("h", "help", false, "Help");
 
             CommandLineParser parser = new DefaultParser();
@@ -93,7 +93,7 @@ public class Main {
                 System.exit(1);
             }
             directed = GRAPH_TYPE_DIRECTED.equals(graphType);
-            singleNodes = cmd.hasOption("s");
+            singleNodes = cmd.hasOption('n');
         }
 
         /***

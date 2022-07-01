@@ -30,7 +30,7 @@ public class DFSCode extends ArrayList<DFS> {
         g.clear();
 
         // Version 1: Multiple nodes for nodes with same label
-        if (singleNodes) {
+        if (!singleNodes) {
             for (DFS it : this) {
                 g.resize(Math.max(it.from, it.to) + 1);
 
@@ -44,9 +44,7 @@ public class DFSCode extends ArrayList<DFS> {
                     g.get(it.to).push(it.to, it.from, it.eLabel);
             }
         } else {
-            g.clear();
             // Version 2: One node for nodes with the same label
-
             // Create label mapping
             Map<Integer, Integer> labelMapping = new HashMap<>();
             Map<Integer, Integer> idMapping = new HashMap<>();
@@ -82,8 +80,6 @@ public class DFSCode extends ArrayList<DFS> {
                     g.get(toId).push(toId, fromId, it.eLabel);
             }
         }
-
-
         g.buildEdge();
     }
 
